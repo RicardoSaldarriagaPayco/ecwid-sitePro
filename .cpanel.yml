@@ -1,0 +1,5 @@
+---
+deployment:
+  tasks:
+    - export DEPLOYPATH=/home/pluginsepayco/public_html/ecwid/
+    - /bin/rsync -av public/ $DEPLOYPATH
