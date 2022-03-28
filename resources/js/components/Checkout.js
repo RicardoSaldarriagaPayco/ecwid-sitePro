@@ -2,7 +2,7 @@ import React  from 'react';
 import ReactDOM from 'react-dom';
 import '../../css/app.css';
 
-function Example() {
+function Checkout() {
     
       const openCheckout = () => {
         debugger
@@ -38,8 +38,8 @@ function Example() {
     );
 }
 
-export default Example;
+export default Checkout;
 
 if (document.getElementById('checkout')) {
-    ReactDOM.render(<Example />, document.getElementById('checkout'));
+    ReactDOM.render(<Checkout />, document.getElementById('checkout'));
 }
