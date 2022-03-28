@@ -13,9 +13,7 @@ class CheckoutController extends Controller
         
         $formattedData = $site->formatSiteProPayload($request->request->all());
         $queryParams = http_build_query($formattedData);
-        //var_dump($queryParams);
-        //die();
-         $redirectUrl = getenv("BASE_URL_SITE_PRO") . "?" . $queryParams;
+         $redirectUrl = getenv("URL_CHECKOUTL_ANDING") . "?" . $queryParams;
          return redirect($redirectUrl);
     }
 
@@ -24,9 +22,7 @@ class CheckoutController extends Controller
       $fieldValidation = $ecwid->decryptEcwidPayload($request->request->all());
       $formattedData = $ecwid->formatEcwidPayload($fieldValidation);
       $queryParams = http_build_query($formattedData);
-        //var_dump($queryParams);
-        //die();
-      $redirectUrl = getenv("URL_ECWID_LANDING") . "?" . $queryParams;
+      $redirectUrl = getenv("URL_CHECKOUTL_ANDING") . "?" . $queryParams;
 
       return redirect($redirectUrl);
     }
@@ -64,18 +60,9 @@ class CheckoutController extends Controller
  
     }
 
-    public function home(Request $request) 
+    public function home() 
     {
-        // Get the payload data
-        $storeId = 43658503;
-        // Display the app home screen
-        return view(
-            'embedded.home', 
-            [
-                'storeId' => $storeId,
-                'appNamespace' => '"custom-app-43658503-5",'
-            ]
-        );
+        return view('admin.home');
     }
     
 }

@@ -7,10 +7,8 @@ class EcwidPayload
     const APPROVED_TRX_STATE = "PAID";
     const DENIED_TRX_STATE = "INCOMPLETE";
     const PENDING_TRX_STATE = "AWAITING_PAYMENT";
-    const CLIENT_SECRET = "tF9BmhmZwRULyEkeBekprBtXkVzgfhhz";
-    //const CLIENT_SECRET = getenv("ECWID_SECRET");
-    const CLIENT_ID = "custom-app-43658503-5";
-    //const CLIENT_SECRET = getenv("ECWID_CLIENT_ID");
+    const CLIENT_SECRET = getenv("ECWID_SECRET");
+    const CLIENT_ID = getenv("ECWID_CLIENT_ID");
     const IV = "abcdefghijklmnop";
     const CIPHER = "aes-128-cbc";
  
