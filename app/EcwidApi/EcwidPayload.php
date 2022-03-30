@@ -2,19 +2,22 @@
 
 namespace App\EcwidApi;
 
+define("CLIENT_SECRET", config("services.ecwid.client_secret"));
+define("CLIENT_ID", config("services.ecwid.client_id"));
+
 class EcwidPayload
 {
     const APPROVED_TRX_STATE = "PAID";
     const DENIED_TRX_STATE = "INCOMPLETE";
     const PENDING_TRX_STATE = "AWAITING_PAYMENT";
-    const CLIENT_SECRET = getenv("ECWID_SECRET");
-    const CLIENT_ID = getenv("ECWID_CLIENT_ID");
+    const CLIENT_SECRET  = CLIENT_SECRET;
+    const CLIENT_ID = CLIENT_ID;
     const IV = "abcdefghijklmnop";
     const CIPHER = "aes-128-cbc";
  
     public function formatEcwidPayload($data)
     {  
-       
+
        $cartData = $data["cart"];
        $cartOrder = $cartData["order"];
        $ciphertext_raw = openssl_encrypt($data['token'], self::CIPHER, self::CLIENT_SECRET, OPENSSL_RAW_DATA, self::IV);
@@ -54,7 +57,7 @@ class EcwidPayload
     private function getOrderDescription($itemsArr)
     {
        $orderDescription = "Product(s): ";
- 
+        
        for ($i = 0; $i < count($itemsArr); $i++) {
           if($i > 0) {
              $orderDescription .= ", ";
