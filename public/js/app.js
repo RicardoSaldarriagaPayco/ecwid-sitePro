@@ -5336,48 +5336,81 @@ __webpack_require__.r(__webpack_exports__);
 
 
 function Checkout() {
+  window.onload = function () {
+    openCheckout();
+  };
+
   var openCheckout = function openCheckout() {
-    debugger;
-    var data = 'h';
     var urlParams = new URLSearchParams(window.location.search);
     var publickey = urlParams.get("publicKey");
+    var testEnv = urlParams.get("test");
+    var orderName = urlParams.get("referenceTransactionId");
+    var orderDescription = urlParams.get("orderDescription");
+    var orderNumber = urlParams.get("orderNumber");
+    var orderCurrencyr = urlParams.get("currency");
+    var orderAmount = urlParams.get("total");
+    var orderBaseAmount = urlParams.get("subTotalPrice");
+    var ordertax = urlParams.get("tax");
+    var countryCode = urlParams.get("countryCode");
+    var epaycoLanguage = urlParams.get("epaycoLanguage");
+    var oderExtra1 = urlParams.get("extra1");
+    var oderExtra2 = urlParams.get("orderId");
+    var confirmUrl = urlParams.get("confirmUrl");
+    var returnUrl = urlParams.get("returnUrl");
+    var customer_name = urlParams.get("customer_name");
+    var customer_address = urlParams.get("customer_address");
+    var customer_email = urlParams.get("customer_email");
     var handler = window.ePayco.checkout.configure({
-      key: 's',
-      test: false
+      key: publickey,
+      test: testEnv
     });
+    var data = {
+      //Parametros compra (obligatorio)
+      name: "Order number " + oderExtra2,
+      description: orderDescription,
+      invoice: oderExtra2,
+      currency: orderCurrencyr,
+      amount: orderAmount,
+      tax_base: orderBaseAmount,
+      tax: ordertax,
+      country: countryCode,
+      lang: epaycoLanguage,
+      //Onpage="false" - Standard="true"
+      external: "true",
+      //Atributos opcionales
+      extra1: oderExtra1,
+      extra2: oderExtra2,
+      confirmation: confirmUrl,
+      response: returnUrl,
+      //Atributos cliente
+      name_billing: customer_name,
+      address_billing: customer_address,
+      email_billing: customer_email
+    };
+    handler.open(data);
   };
 
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
-    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
-        className: "loader-container",
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
-          className: "loading"
-        })
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("p", {
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("p", {
         style: {
           textAlign: 'center'
         },
         className: "epayco-title",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("span", {
-          className: "animated-points",
-          children: "Loading payment methods"
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("br", {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("small", {
-          className: "epayco-subtitle",
-          children: "If they do not load automatically, click on the \"Pay with ePayco\" button"
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("br", {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("small", {
+          className: "epayco-subtitle"
         })]
-      })]
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("center", {
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("a", {
+      })
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("center", {
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+        className: "loader"
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("a", {
         href: "#",
         className: "epayco-button",
         onClick: function onClick() {
           return openCheckout();
-        },
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("img", {
-          src: "https://multimedia.epayco.co/epayco-landing/btns/Boton-epayco-color-Ingles.png"
-        })
-      })
+        }
+      })]
     })]
   });
 }
@@ -10434,7 +10467,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, ".epayco-title{\n    max-width: 900px;\n    display: block;\n    margin:auto;\n    color: #444;\n    font-weight: 700;\n    margin-bottom: 25px;\n}\n.loader-container{\n    position: relative;\n    padding: 20px;\n    color: #ff5700;\n}\n.epayco-subtitle{\n    font-size: 14px;\n}\n.epayco-button-render{\n    transition: all 500ms cubic-bezier(0.000, 0.445, 0.150, 1.025);\n    transform: scale(1.1);\n    box-shadow: 0 0 4px rgba(0,0,0,0);\n}\n.epayco-button-render:hover {\n    transform: scale(1.2);\n}\n\n.animated-points::after{\n    content: \"\";\n    -webkit-animation-duration: 2s;\n            animation-duration: 2s;\n    -webkit-animation-fill-mode: forwards;\n            animation-fill-mode: forwards;\n    -webkit-animation-iteration-count: infinite;\n            animation-iteration-count: infinite;\n    -webkit-animation-name: animatedPoints;\n            animation-name: animatedPoints;\n    -webkit-animation-timing-function: linear;\n            animation-timing-function: linear;\n    position: absolute;\n}\n.animated-background {\n    -webkit-animation-duration: 2s;\n            animation-duration: 2s;\n    -webkit-animation-fill-mode: forwards;\n            animation-fill-mode: forwards;\n    -webkit-animation-iteration-count: infinite;\n            animation-iteration-count: infinite;\n    -webkit-animation-name: placeHolderShimmer;\n            animation-name: placeHolderShimmer;\n    -webkit-animation-timing-function: linear;\n            animation-timing-function: linear;\n    color: #f6f7f8;\n    background: linear-gradient(to right, #7b7b7b 8%, #999 18%, #7b7b7b 33%);\n    background-size: 800px 104px;\n    position: relative;\n    background-clip: text;\n    -webkit-background-clip: text;\n    -webkit-text-fill-color: transparent;\n}\n.loading::before{\n    -webkit-background-clip: padding-box;\n    background-clip: padding-box;\n    box-sizing: border-box;\n    border-width: 2px;\n    border-color: currentColor currentColor currentColor transparent;\n    position: absolute;\n    margin: auto;\n    top: 0;\n    left: 0;\n    right: 0;\n    bottom: 0;\n    content: \" \";\n    display: inline-block;\n    background: center center no-repeat;\n    background-size: cover;\n    border-radius: 50%;\n    border-style: solid;\n    width: 30px;\n    height: 30px;\n    opacity: 1;\n    -webkit-animation: loaderAnimation 1s infinite linear,fadeIn 0.5s ease-in-out;\n    animation: loaderAnimation 1s infinite linear, fadeIn 0.5s ease-in-out;\n}\n@-webkit-keyframes animatedPoints{\n    33%{\n        content: \".\"\n    }\n\n    66%{\n        content: \"..\"\n    }\n\n    100%{\n        content: \"...\"\n    }\n}\n@keyframes animatedPoints{\n    33%{\n        content: \".\"\n    }\n\n    66%{\n        content: \"..\"\n    }\n\n    100%{\n        content: \"...\"\n    }\n}\n\n@-webkit-keyframes placeHolderShimmer{\n    0%{\n        background-position: -800px 0\n    }\n    100%{\n        background-position: 800px 0\n    }\n}\n\n@keyframes placeHolderShimmer{\n    0%{\n        background-position: -800px 0\n    }\n    100%{\n        background-position: 800px 0\n    }\n}\n@-webkit-keyframes loaderAnimation{\n    0%{\n        transform:rotate(0);\n        -webkit-animation-timing-function:cubic-bezier(.55,.055,.675,.19);\n                animation-timing-function:cubic-bezier(.55,.055,.675,.19)\n    }\n\n    50%{\n        transform:rotate(180deg);\n        -webkit-animation-timing-function:cubic-bezier(.215,.61,.355,1);\n                animation-timing-function:cubic-bezier(.215,.61,.355,1)\n    }\n    100%{\n        transform:rotate(360deg)\n    }\n}\n@keyframes loaderAnimation{\n    0%{\n        transform:rotate(0);\n        -webkit-animation-timing-function:cubic-bezier(.55,.055,.675,.19);\n                animation-timing-function:cubic-bezier(.55,.055,.675,.19)\n    }\n\n    50%{\n        transform:rotate(180deg);\n        -webkit-animation-timing-function:cubic-bezier(.215,.61,.355,1);\n                animation-timing-function:cubic-bezier(.215,.61,.355,1)\n    }\n    100%{\n        transform:rotate(360deg)\n    }\n}\n\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, ".epayco-title{\n    max-width: 900px;\n    display: block;\n    margin:auto;\n    color: #444;\n    font-weight: 700;\n    margin-bottom: 25px;\n}\n.loader-container{\n    position: relative;\n    padding: 20px;\n    color: #ff5700;\n}\n.epayco-subtitle{\n    font-size: 14px;\n}\n.epayco-button-render{\n    transition: all 500ms cubic-bezier(0.000, 0.445, 0.150, 1.025);\n    transform: scale(1.1);\n    box-shadow: 0 0 4px rgba(0,0,0,0);\n}\n.epayco-button-render:hover {\n    transform: scale(1.2);\n}\n\n.animated-points::after{\n    content: \"\";\n    -webkit-animation-duration: 2s;\n            animation-duration: 2s;\n    -webkit-animation-fill-mode: forwards;\n            animation-fill-mode: forwards;\n    -webkit-animation-iteration-count: infinite;\n            animation-iteration-count: infinite;\n    -webkit-animation-name: animatedPoints;\n            animation-name: animatedPoints;\n    -webkit-animation-timing-function: linear;\n            animation-timing-function: linear;\n    position: absolute;\n}\n.animated-background {\n    -webkit-animation-duration: 2s;\n            animation-duration: 2s;\n    -webkit-animation-fill-mode: forwards;\n            animation-fill-mode: forwards;\n    -webkit-animation-iteration-count: infinite;\n            animation-iteration-count: infinite;\n    -webkit-animation-name: placeHolderShimmer;\n            animation-name: placeHolderShimmer;\n    -webkit-animation-timing-function: linear;\n            animation-timing-function: linear;\n    color: #f6f7f8;\n    background: linear-gradient(to right, #7b7b7b 8%, #999 18%, #7b7b7b 33%);\n    background-size: 800px 104px;\n    position: relative;\n    background-clip: text;\n    -webkit-background-clip: text;\n    -webkit-text-fill-color: transparent;\n}\n.loading::before{\n    -webkit-background-clip: padding-box;\n    background-clip: padding-box;\n    box-sizing: border-box;\n    border-width: 2px;\n    border-color: currentColor currentColor currentColor transparent;\n    position: absolute;\n    margin: auto;\n    top: 0;\n    left: 0;\n    right: 0;\n    bottom: 0;\n    content: \" \";\n    display: inline-block;\n    background: center center no-repeat;\n    background-size: cover;\n    border-radius: 50%;\n    border-style: solid;\n    width: 30px;\n    height: 30px;\n    opacity: 1;\n    -webkit-animation: loaderAnimation 1s infinite linear,fadeIn 0.5s ease-in-out;\n    animation: loaderAnimation 1s infinite linear, fadeIn 0.5s ease-in-out;\n}\n@-webkit-keyframes animatedPoints{\n    33%{\n        content: \".\"\n    }\n\n    66%{\n        content: \"..\"\n    }\n\n    100%{\n        content: \"...\"\n    }\n}\n@keyframes animatedPoints{\n    33%{\n        content: \".\"\n    }\n\n    66%{\n        content: \"..\"\n    }\n\n    100%{\n        content: \"...\"\n    }\n}\n\n@-webkit-keyframes placeHolderShimmer{\n    0%{\n        background-position: -800px 0\n    }\n    100%{\n        background-position: 800px 0\n    }\n}\n\n@keyframes placeHolderShimmer{\n    0%{\n        background-position: -800px 0\n    }\n    100%{\n        background-position: 800px 0\n    }\n}\n@-webkit-keyframes loaderAnimation{\n    0%{\n        transform:rotate(0);\n        -webkit-animation-timing-function:cubic-bezier(.55,.055,.675,.19);\n                animation-timing-function:cubic-bezier(.55,.055,.675,.19)\n    }\n\n    50%{\n        transform:rotate(180deg);\n        -webkit-animation-timing-function:cubic-bezier(.215,.61,.355,1);\n                animation-timing-function:cubic-bezier(.215,.61,.355,1)\n    }\n    100%{\n        transform:rotate(360deg)\n    }\n}\n@keyframes loaderAnimation{\n    0%{\n        transform:rotate(0);\n        -webkit-animation-timing-function:cubic-bezier(.55,.055,.675,.19);\n                animation-timing-function:cubic-bezier(.55,.055,.675,.19)\n    }\n\n    50%{\n        transform:rotate(180deg);\n        -webkit-animation-timing-function:cubic-bezier(.215,.61,.355,1);\n                animation-timing-function:cubic-bezier(.215,.61,.355,1)\n    }\n    100%{\n        transform:rotate(360deg)\n    }\n}\n\n.App {\n    height: 100vh;\n    display: flex;\n    justify-content: center;\n    align-items: center;\n}\n\n.loader {\n    width: 40px;\n    height: 40px;\n    border-radius: 50%;\n    border-width: 4px;\n    border-style: solid;\n    -o-border-image: initial;\n       border-image: initial;\n    border-color: rgba(0, 0, 0, 0.2) rgba(0, 0, 0, 0.2) rgba(0, 0, 0, 0.2) white;\n    -webkit-animation: spin 0.5s ease-out 0s infinite normal none running;\n            animation: spin 0.5s ease-out 0s infinite normal none running;\n}\n\n@-webkit-keyframes spin {\n    from {\n        transform: rotate(0deg);\n    }\n\n    to {\n        transform: rotate(360deg);\n    }\n}\n\n@keyframes spin {\n    from {\n        transform: rotate(0deg);\n    }\n\n    to {\n        transform: rotate(360deg);\n    }\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -53864,7 +53897,7 @@ function injectIntoDevTools(devToolsConfig) {
     scheduleRoot:  scheduleRoot ,
     setRefreshHandler:  setRefreshHandler ,
     // Enables DevTools to append owner stacks to error messages in DEV mode.
-    getCurrentFiber:  getCurrentFiberForDevTools 
+    getCurrentFiber:  getCurrentFiberForDevTools
   });
 }
 
@@ -59019,7 +59052,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _node_modules_css_loader_dist_cjs_js_ruleSet_1_rules_6_oneOf_1_use_1_node_modules_postcss_loader_dist_cjs_js_ruleSet_1_rules_6_oneOf_1_use_2_app_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !!../../node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[6].oneOf[1].use[1]!../../node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[6].oneOf[1].use[2]!./app.css */ "./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[6].oneOf[1].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[6].oneOf[1].use[2]!./resources/css/app.css");
 
-            
+
 
 var options = {};
 
@@ -59328,7 +59361,7 @@ module.exports = JSON.parse('{"name":"axios","version":"0.21.4","description":"P
 /************************************************************************/
 /******/ 	// The module cache
 /******/ 	var __webpack_module_cache__ = {};
-/******/ 	
+/******/
 /******/ 	// The require function
 /******/ 	function __webpack_require__(moduleId) {
 /******/ 		// Check if module is in cache
@@ -59342,20 +59375,20 @@ module.exports = JSON.parse('{"name":"axios","version":"0.21.4","description":"P
 /******/ 			loaded: false,
 /******/ 			exports: {}
 /******/ 		};
-/******/ 	
+/******/
 /******/ 		// Execute the module function
 /******/ 		__webpack_modules__[moduleId].call(module.exports, module, module.exports, __webpack_require__);
-/******/ 	
+/******/
 /******/ 		// Flag the module as loaded
 /******/ 		module.loaded = true;
-/******/ 	
+/******/
 /******/ 		// Return the exports of the module
 /******/ 		return module.exports;
 /******/ 	}
-/******/ 	
+/******/
 /******/ 	// expose the modules object (__webpack_modules__)
 /******/ 	__webpack_require__.m = __webpack_modules__;
-/******/ 	
+/******/
 /************************************************************************/
 /******/ 	/* webpack/runtime/chunk loaded */
 /******/ 	(() => {
@@ -59388,7 +59421,7 @@ module.exports = JSON.parse('{"name":"axios","version":"0.21.4","description":"P
 /******/ 			return result;
 /******/ 		};
 /******/ 	})();
-/******/ 	
+/******/
 /******/ 	/* webpack/runtime/compat get default export */
 /******/ 	(() => {
 /******/ 		// getDefaultExport function for compatibility with non-harmony modules
@@ -59400,7 +59433,7 @@ module.exports = JSON.parse('{"name":"axios","version":"0.21.4","description":"P
 /******/ 			return getter;
 /******/ 		};
 /******/ 	})();
-/******/ 	
+/******/
 /******/ 	/* webpack/runtime/define property getters */
 /******/ 	(() => {
 /******/ 		// define getter functions for harmony exports
@@ -59412,7 +59445,7 @@ module.exports = JSON.parse('{"name":"axios","version":"0.21.4","description":"P
 /******/ 			}
 /******/ 		};
 /******/ 	})();
-/******/ 	
+/******/
 /******/ 	/* webpack/runtime/global */
 /******/ 	(() => {
 /******/ 		__webpack_require__.g = (function() {
@@ -59424,12 +59457,12 @@ module.exports = JSON.parse('{"name":"axios","version":"0.21.4","description":"P
 /******/ 			}
 /******/ 		})();
 /******/ 	})();
-/******/ 	
+/******/
 /******/ 	/* webpack/runtime/hasOwnProperty shorthand */
 /******/ 	(() => {
 /******/ 		__webpack_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
 /******/ 	})();
-/******/ 	
+/******/
 /******/ 	/* webpack/runtime/make namespace object */
 /******/ 	(() => {
 /******/ 		// define __esModule on exports
@@ -59440,7 +59473,7 @@ module.exports = JSON.parse('{"name":"axios","version":"0.21.4","description":"P
 /******/ 			Object.defineProperty(exports, '__esModule', { value: true });
 /******/ 		};
 /******/ 	})();
-/******/ 	
+/******/
 /******/ 	/* webpack/runtime/node module decorator */
 /******/ 	(() => {
 /******/ 		__webpack_require__.nmd = (module) => {
@@ -59449,11 +59482,11 @@ module.exports = JSON.parse('{"name":"axios","version":"0.21.4","description":"P
 /******/ 			return module;
 /******/ 		};
 /******/ 	})();
-/******/ 	
+/******/
 /******/ 	/* webpack/runtime/jsonp chunk loading */
 /******/ 	(() => {
 /******/ 		// no baseURI
-/******/ 		
+/******/
 /******/ 		// object to store loaded and loading chunks
 /******/ 		// undefined = chunk not loaded, null = chunk preloaded/prefetched
 /******/ 		// [resolve, reject, Promise] = chunk loading, 0 = chunk loaded
@@ -59461,19 +59494,19 @@ module.exports = JSON.parse('{"name":"axios","version":"0.21.4","description":"P
 /******/ 			"/js/app": 0,
 /******/ 			"css/app": 0
 /******/ 		};
-/******/ 		
+/******/
 /******/ 		// no chunk on demand loading
-/******/ 		
+/******/
 /******/ 		// no prefetching
-/******/ 		
+/******/
 /******/ 		// no preloaded
-/******/ 		
+/******/
 /******/ 		// no HMR
-/******/ 		
+/******/
 /******/ 		// no HMR manifest
-/******/ 		
+/******/
 /******/ 		__webpack_require__.O.j = (chunkId) => (installedChunks[chunkId] === 0);
-/******/ 		
+/******/
 /******/ 		// install a JSONP callback for chunk loading
 /******/ 		var webpackJsonpCallback = (parentChunkLoadingFunction, data) => {
 /******/ 			var [chunkIds, moreModules, runtime] = data;
@@ -59498,20 +59531,20 @@ module.exports = JSON.parse('{"name":"axios","version":"0.21.4","description":"P
 /******/ 			}
 /******/ 			return __webpack_require__.O(result);
 /******/ 		}
-/******/ 		
+/******/
 /******/ 		var chunkLoadingGlobal = self["webpackChunk"] = self["webpackChunk"] || [];
 /******/ 		chunkLoadingGlobal.forEach(webpackJsonpCallback.bind(null, 0));
 /******/ 		chunkLoadingGlobal.push = webpackJsonpCallback.bind(null, chunkLoadingGlobal.push.bind(chunkLoadingGlobal));
 /******/ 	})();
-/******/ 	
+/******/
 /************************************************************************/
-/******/ 	
+/******/
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
 /******/ 	// This entry module depends on other loaded chunks and execution need to be delayed
 /******/ 	__webpack_require__.O(undefined, ["css/app"], () => (__webpack_require__("./resources/js/app.js")))
 /******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, ["css/app"], () => (__webpack_require__("./resources/sass/app.scss")))
 /******/ 	__webpack_exports__ = __webpack_require__.O(__webpack_exports__);
-/******/ 	
+/******/
 /******/ })()
 ;
