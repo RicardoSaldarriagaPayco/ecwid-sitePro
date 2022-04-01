@@ -5336,11 +5336,8 @@ __webpack_require__.r(__webpack_exports__);
 
 
 function Checkout() {
-  window.onload = function () {
-    openCheckout();
-  };
-
   var openCheckout = function openCheckout() {
+    debugger;
     var urlParams = new URLSearchParams(window.location.search);
     var publickey = urlParams.get("publicKey");
     var testEnv = urlParams.get("test");
@@ -5366,9 +5363,9 @@ function Checkout() {
     });
     var data = {
       //Parametros compra (obligatorio)
-      name: "Order number " + oderExtra2,
+      name: "Order number " + orderName,
       description: orderDescription,
-      invoice: oderExtra2,
+      invoice: orderNumber,
       currency: orderCurrencyr,
       amount: orderAmount,
       tax_base: orderBaseAmount,
@@ -5387,7 +5384,7 @@ function Checkout() {
       address_billing: customer_address,
       email_billing: customer_email
     };
-    handler.open(data);
+    console.log(data);
   };
 
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
