@@ -10,26 +10,24 @@ class EcwidPayload
     const APPROVED_TRX_STATE = "PAID";
     const DENIED_TRX_STATE = "INCOMPLETE";
     const PENDING_TRX_STATE = "AWAITING_PAYMENT";
-    const CLIENT_SECRET  = CLIENT_SECRET;
-    const CLIENT_ID = CLIENT_ID;
-    const IV = "abcdefghijklmnop";
-    const CIPHER = "aes-128-cbc";
  
     public function formatEcwidPayload($data)
     {  
-
+       $language = json_decode($data["merchantAppSettings"]['public']);
+       $language = $language->language;
        $cartData = $data["cart"];
        $cartOrder = $cartData["order"];
-       $ciphertext_raw = openssl_encrypt($data['token'], self::CIPHER, self::CLIENT_SECRET, OPENSSL_RAW_DATA, self::IV);
-       $hmac = hash_hmac('sha256', $ciphertext_raw, self::CLIENT_SECRET, $as_binary=true);
-       $callbackPayload = base64_encode( self::IV.$hmac.$ciphertext_raw );
+       $base64 = base64_encode($data['token']);
+       $callbackPayload = strtr($base64, '+/=', '-_,');
        $orderInfor =  $data['storeId'].
             "/".$cartOrder["orderNumber"].
-            "/".$callbackPayload;
-        //$url = getenv("ECWID_URL");
-        $url = 'https://plugins.epayco.io/develop/pyreact/public/ecwid/';
+            "/?callback=".$callbackPayload;
+        $orderConfirmInfor =  $data['storeId'].
+            "/".$cartOrder["orderNumber"].
+            "/=".$callbackPayload;    
+        $url = getenv("ECWID_BASE_URL");
         $responseUrl= $url.'response/'.$orderInfor;
-        $callbackUrl= $url.'confirm/'.$orderInfor;  
+        $callbackUrl= $url.'confirm/'.$orderConfirmInfor;  
         $formattedData = array(
           "returnUrl" => $responseUrl,
           "confirmUrl" => $callbackUrl,
@@ -48,7 +46,8 @@ class EcwidPayload
           "extra1" => $cartOrder["orderNumber"],
           "customer_name" => $cartOrder["billingPerson"]["name"],
           "customer_email" => $cartOrder["email"],
-          "customer_address" => $cartOrder["billingPerson"]["street"]
+          "customer_address" => $cartOrder["billingPerson"]["street"],
+          "epaycoLanguage" => $language
        );
  
        return $formattedData;
@@ -71,7 +70,7 @@ class EcwidPayload
 
     public function decryptEcwidPayload($data) {
         // Get the encryption key (16 first bytes of the app's client_secret key)
-        $encryption_key = substr(self::CLIENT_SECRET, 0, 16);
+        $encryption_key = substr(CLIENT_SECRET, 0, 16);
         // Decrypt payload
         $json_data = $this->aes_128_decrypt($encryption_key, $data['data']);
 
@@ -115,32 +114,32 @@ class EcwidPayload
 
    public function getToken($callbackPayload){
         //decrypt ....
-        $ivlen = openssl_cipher_iv_length("AES-128-CBC");
-        $c = base64_decode($callbackPayload);
-        $hmac = substr($c, $ivlen, $sha2len=32);
-        $ciphertext_raw = substr($c, $ivlen+$sha2len);
-        $token = openssl_decrypt($ciphertext_raw,  self::CIPHER, self::CLIENT_SECRET, OPENSSL_RAW_DATA, self::IV);
-        $calcmac = hash_hmac('sha256', $ciphertext_raw, self::CLIENT_SECRET, $as_binary=true);
-        if (hash_equals($hmac, $calcmac))
-        {
-            return $token;
-        }else{
-            return $token; 
-        }
+        $base64url = strtr($callbackPayload, '-_,', '+/=');
+        return $token = base64_decode($base64url);
    }
    
-    public function updatePaymentEcwid($storeId,$orderNumber,$token, $status, $redirect=false)
+    public function updatePaymentEcwid($storeId,$orderNumber,$token, $status, $redirect=false, $amount)
     {
-        if(!$redirect && $status == 'INCOMPLETE'){
-            $status="CANCELLED";
-        }
         // URL used to update the order via Ecwid REST API
         $url = "https://app.ecwid.com/api/v3/$storeId/orders/transaction_$orderNumber?token=$token";
+        if(!$redirect ){
+            if($status == 'INCOMPLETE'){
+                $status="CANCELLED";
+            }
+            $orderData = $this->getOrderInfo($url);
+            $oderAmount = json_decode($orderData);
+                
+            if($oderAmount->total != floatval($amount)){
+                $status="CANCELLED";
+            }
+        }
+        
         // Prepare request body for updating the order
         $json = json_encode(array(
             "paymentStatus" => $status,
             "externalTransactionId" => "transaction_".$orderNumber
         ));
+        
         // Send request to update order
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
@@ -151,12 +150,29 @@ class EcwidPayload
         $response = curl_exec($ch);
         curl_close($ch);
         if($redirect){
-            $returnUrl = "https://app.ecwid.com/custompaymentapps/".$storeId."?orderId=".$orderNumber."&clientId=".self::CLIENT_ID;
+            $returnUrl = "https://app.ecwid.com/custompaymentapps/".$storeId."?orderId=".$orderNumber."&clientId=".CLIENT_ID;
              echo "<script>window.location = '$returnUrl'</script>";
         }else{
             echo "paymentStatus ".$status;
         }
 
+    }
+    
+    private function getOrderInfo($url){
+        $curl = curl_init();
+        curl_setopt_array($curl, array(
+          CURLOPT_URL => $url,
+          CURLOPT_RETURNTRANSFER => true,
+          CURLOPT_ENCODING => '',
+          CURLOPT_MAXREDIRS => 10,
+          CURLOPT_TIMEOUT => 0,
+          CURLOPT_FOLLOWLOCATION => true,
+          CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+          CURLOPT_CUSTOMREQUEST => 'GET',
+        ));
+        $response = curl_exec($curl);
+        curl_close($curl);
+        return $response;
     }
 
 }

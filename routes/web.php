@@ -18,10 +18,12 @@ Route::get('/checkout', function () {
 });
 
 Route::post('/ecwid/checkout/payment','App\Http\Controllers\CheckoutController@paymentEcwid');
-Route::post('/ecwid/response/{storeId}/{orderNumber}/{callbackPayload}/', 'App\Http\Controllers\CheckoutController@responseEcwid');
+Route::get('/ecwid/response/{storeId}/{orderNumber}/{callback?}/', 'App\Http\Controllers\CheckoutController@responseEcwid');
 Route::post('/ecwid/confirm/{storeId}/{orderNumber}/{callbackPayload}/', 'App\Http\Controllers\CheckoutController@updatePaymentEcwid');
 
 Route::post('/site/checkout/payment','App\Http\Controllers\CheckoutController@paymentSitePro');
 
 
 Route::get('/home','App\Http\Controllers\CheckoutController@home');
+
+Route::get('/omnipay/checkout/payment', 'App\Http\Controllers\CheckoutController@paymentOmniPay');

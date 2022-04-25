@@ -31,7 +31,8 @@ class SiteProPayload
           "extra1" => $data["extra1"],
           "customer_name" => $data["customer_name"],
           "customer_email" => $data["customer_email"],
-          "customer_address" => $data["address1"]
+          "customer_address" => $data["address1"],
+          "epaycoLanguage" => $data["epaycoLanguage"]
        );
  
        return $formattedData;
