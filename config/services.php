@@ -29,5 +29,9 @@ return [
         'secret' => env('AWS_SECRET_ACCESS_KEY'),
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
+    'ecwid'=> [
+        'client_secret'=>env('ECWID_SECRET'),
+        'client_id' => env('ECWID_CLIENT_ID')
+    ]
 
 ];

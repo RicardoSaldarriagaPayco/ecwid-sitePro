@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\EcwidApi\EcwidPayload;
 use App\SiteProApi\SiteProPayload;
+use App\OmniPay\OmniPayPaylod;
 
 class CheckoutController extends Controller
 {
@@ -36,25 +37,34 @@ class CheckoutController extends Controller
             $getToken = $validationData['x_extra2'];
         }
         $status = $ecwidPayload->getPaymentStatus($validationData["x_response"]);
+        $amount = $validationData["x_amount"];
        
-      $ecwidPayload->updatePaymentEcwid($storeId, $orderNumber, $getToken, $status);
+      $ecwidPayload->updatePaymentEcwid($storeId, $orderNumber, $getToken, $status, false, $amount);
  
     }
     
-    public function responseEcwid(Request $request, $storeId,$orderNumber,$callbackPayload)
+    public function responseEcwid(Request $request, $storeId,$orderNumber)
     {
         $ecwidPayload = new EcwidPayload();
-        $getToken = $ecwidPayload->getToken($callbackPayload);
         $ref_payco = $_GET['ref_payco'];
+        $callbackPayload = $_GET['callback'];
+        $getToken = $ecwidPayload->getToken($callbackPayload);
         if(!empty($ref_payco)){
-            $response =file_get_contents('https://secure.epayco.co/validation/v1/reference/'.$ref_payco);
-            $jsonData = json_decode($response);
-            $validationData = (array)$jsonData->data;
-            if(!$getToken){
-                $getToken = $validationData['x_extra2'];
+            if($ref_payco != 'undefined'){
+                $response =file_get_contents('https://secure.epayco.co/validation/v1/reference/'.$ref_payco);
+                $jsonData = json_decode($response);
+                $validationData = (array)$jsonData->data;
+                if(!$getToken){
+                    $getToken = $validationData['x_extra2'];
+                }
+                $status = $ecwidPayload->getPaymentStatus($validationData["x_response"]); 
+                $amount = $validationData["x_amount"];
+            }else{
+                $status = 'INCOMPLETE';
+                $amount = 0;
             }
-            $status = $ecwidPayload->getPaymentStatus($validationData["x_response"]);
-            $ecwidPayload->updatePaymentEcwid($storeId, $orderNumber, $getToken, $status, true);
+            
+            $ecwidPayload->updatePaymentEcwid($storeId, $orderNumber, $getToken, $status, true, $amount);
         }
         
  
@@ -63,6 +73,15 @@ class CheckoutController extends Controller
     public function home() 
     {
         return view('admin.home');
+    }
+    
+    public function paymentOmniPay(Request $request, OmniPayPaylod $omnipay)
+    {
+        $validationData = $request->request->all();
+        $formattedData = $omnipay->formatOmniPayPaylod($validationData);
+        $queryParams = http_build_query($formattedData);
+        $redirectUrl = getenv("URL_CHECKOUTL_ANDING") . "?" . $queryParams;
+        return redirect($redirectUrl);
     }
     
 }

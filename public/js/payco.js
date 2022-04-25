@@ -1,6 +1,6 @@
 // Initialize the application
 EcwidApp.init({
-    app_id: "custom-app-43658503-5", // use your application namespace
+    app_id: "epayco-dev", // use your application namespace
     autoloadedflag: true,
     autoheight: true
 });

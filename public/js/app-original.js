@@ -5336,11 +5336,8 @@ __webpack_require__.r(__webpack_exports__);
 
 
 function Checkout() {
-  window.onload = function () {
-    openCheckout();
-  };
-
   var openCheckout = function openCheckout() {
+    debugger;
     var urlParams = new URLSearchParams(window.location.search);
     var publickey = urlParams.get("publicKey");
     var testEnv = urlParams.get("test");
@@ -5366,9 +5363,9 @@ function Checkout() {
     });
     var data = {
       //Parametros compra (obligatorio)
-      name: "Order number " + oderExtra2,
+      name: "Order number " + orderName,
       description: orderDescription,
-      invoice: oderExtra2,
+      invoice: orderNumber,
       currency: orderCurrencyr,
       amount: orderAmount,
       tax_base: orderBaseAmount,
@@ -5387,30 +5384,40 @@ function Checkout() {
       address_billing: customer_address,
       email_billing: customer_email
     };
-    handler.open(data);
+    console.log(data);
   };
 
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
-    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("p", {
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+        className: "loader-container",
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+          className: "loading"
+        })
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("p", {
         style: {
           textAlign: 'center'
         },
         className: "epayco-title",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("br", {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("small", {
-          className: "epayco-subtitle"
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("span", {
+          className: "animated-points",
+          children: "Loading payment methods"
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("br", {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("small", {
+          className: "epayco-subtitle",
+          children: "If they do not load automatically, click on the \"Pay with ePayco\" button"
         })]
-      })
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("center", {
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
-        className: "loader"
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("a", {
+      })]
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("center", {
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("a", {
         href: "#",
         className: "epayco-button",
         onClick: function onClick() {
           return openCheckout();
-        }
-      })]
+        },
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("img", {
+          src: "https://multimedia.epayco.co/epayco-landing/btns/Boton-epayco-color-Ingles.png"
+        })
+      })
     })]
   });
 }
@@ -10467,7 +10474,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, ".epayco-title{\n    max-width: 900px;\n    display: block;\n    margin:auto;\n    color: #444;\n    font-weight: 700;\n    margin-bottom: 25px;\n}\n.loader-container{\n    position: relative;\n    padding: 20px;\n    color: #ff5700;\n}\n.epayco-subtitle{\n    font-size: 14px;\n}\n.epayco-button-render{\n    transition: all 500ms cubic-bezier(0.000, 0.445, 0.150, 1.025);\n    transform: scale(1.1);\n    box-shadow: 0 0 4px rgba(0,0,0,0);\n}\n.epayco-button-render:hover {\n    transform: scale(1.2);\n}\n\n.animated-points::after{\n    content: \"\";\n    -webkit-animation-duration: 2s;\n            animation-duration: 2s;\n    -webkit-animation-fill-mode: forwards;\n            animation-fill-mode: forwards;\n    -webkit-animation-iteration-count: infinite;\n            animation-iteration-count: infinite;\n    -webkit-animation-name: animatedPoints;\n            animation-name: animatedPoints;\n    -webkit-animation-timing-function: linear;\n            animation-timing-function: linear;\n    position: absolute;\n}\n.animated-background {\n    -webkit-animation-duration: 2s;\n            animation-duration: 2s;\n    -webkit-animation-fill-mode: forwards;\n            animation-fill-mode: forwards;\n    -webkit-animation-iteration-count: infinite;\n            animation-iteration-count: infinite;\n    -webkit-animation-name: placeHolderShimmer;\n            animation-name: placeHolderShimmer;\n    -webkit-animation-timing-function: linear;\n            animation-timing-function: linear;\n    color: #f6f7f8;\n    background: linear-gradient(to right, #7b7b7b 8%, #999 18%, #7b7b7b 33%);\n    background-size: 800px 104px;\n    position: relative;\n    background-clip: text;\n    -webkit-background-clip: text;\n    -webkit-text-fill-color: transparent;\n}\n.loading::before{\n    -webkit-background-clip: padding-box;\n    background-clip: padding-box;\n    box-sizing: border-box;\n    border-width: 2px;\n    border-color: currentColor currentColor currentColor transparent;\n    position: absolute;\n    margin: auto;\n    top: 0;\n    left: 0;\n    right: 0;\n    bottom: 0;\n    content: \" \";\n    display: inline-block;\n    background: center center no-repeat;\n    background-size: cover;\n    border-radius: 50%;\n    border-style: solid;\n    width: 30px;\n    height: 30px;\n    opacity: 1;\n    -webkit-animation: loaderAnimation 1s infinite linear,fadeIn 0.5s ease-in-out;\n    animation: loaderAnimation 1s infinite linear, fadeIn 0.5s ease-in-out;\n}\n@-webkit-keyframes animatedPoints{\n    33%{\n        content: \".\"\n    }\n\n    66%{\n        content: \"..\"\n    }\n\n    100%{\n        content: \"...\"\n    }\n}\n@keyframes animatedPoints{\n    33%{\n        content: \".\"\n    }\n\n    66%{\n        content: \"..\"\n    }\n\n    100%{\n        content: \"...\"\n    }\n}\n\n@-webkit-keyframes placeHolderShimmer{\n    0%{\n        background-position: -800px 0\n    }\n    100%{\n        background-position: 800px 0\n    }\n}\n\n@keyframes placeHolderShimmer{\n    0%{\n        background-position: -800px 0\n    }\n    100%{\n        background-position: 800px 0\n    }\n}\n@-webkit-keyframes loaderAnimation{\n    0%{\n        transform:rotate(0);\n        -webkit-animation-timing-function:cubic-bezier(.55,.055,.675,.19);\n                animation-timing-function:cubic-bezier(.55,.055,.675,.19)\n    }\n\n    50%{\n        transform:rotate(180deg);\n        -webkit-animation-timing-function:cubic-bezier(.215,.61,.355,1);\n                animation-timing-function:cubic-bezier(.215,.61,.355,1)\n    }\n    100%{\n        transform:rotate(360deg)\n    }\n}\n@keyframes loaderAnimation{\n    0%{\n        transform:rotate(0);\n        -webkit-animation-timing-function:cubic-bezier(.55,.055,.675,.19);\n                animation-timing-function:cubic-bezier(.55,.055,.675,.19)\n    }\n\n    50%{\n        transform:rotate(180deg);\n        -webkit-animation-timing-function:cubic-bezier(.215,.61,.355,1);\n                animation-timing-function:cubic-bezier(.215,.61,.355,1)\n    }\n    100%{\n        transform:rotate(360deg)\n    }\n}\n\n.App {\n    height: 100vh;\n    display: flex;\n    justify-content: center;\n    align-items: center;\n}\n\n.loader {\n    width: 40px;\n    height: 40px;\n    border-radius: 50%;\n    border-width: 4px;\n    border-style: solid;\n    -o-border-image: initial;\n       border-image: initial;\n    border-color: rgba(0, 0, 0, 0.2) rgba(0, 0, 0, 0.2) rgba(0, 0, 0, 0.2) white;\n    -webkit-animation: spin 0.5s ease-out 0s infinite normal none running;\n            animation: spin 0.5s ease-out 0s infinite normal none running;\n}\n\n@-webkit-keyframes spin {\n    from {\n        transform: rotate(0deg);\n    }\n\n    to {\n        transform: rotate(360deg);\n    }\n}\n\n@keyframes spin {\n    from {\n        transform: rotate(0deg);\n    }\n\n    to {\n        transform: rotate(360deg);\n    }\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, ".epayco-title{\n    max-width: 900px;\n    display: block;\n    margin:auto;\n    color: #444;\n    font-weight: 700;\n    margin-bottom: 25px;\n}\n.loader-container{\n    position: relative;\n    padding: 20px;\n    color: #ff5700;\n}\n.epayco-subtitle{\n    font-size: 14px;\n}\n.epayco-button-render{\n    transition: all 500ms cubic-bezier(0.000, 0.445, 0.150, 1.025);\n    transform: scale(1.1);\n    box-shadow: 0 0 4px rgba(0,0,0,0);\n}\n.epayco-button-render:hover {\n    transform: scale(1.2);\n}\n\n.animated-points::after{\n    content: \"\";\n    -webkit-animation-duration: 2s;\n            animation-duration: 2s;\n    -webkit-animation-fill-mode: forwards;\n            animation-fill-mode: forwards;\n    -webkit-animation-iteration-count: infinite;\n            animation-iteration-count: infinite;\n    -webkit-animation-name: animatedPoints;\n            animation-name: animatedPoints;\n    -webkit-animation-timing-function: linear;\n            animation-timing-function: linear;\n    position: absolute;\n}\n.animated-background {\n    -webkit-animation-duration: 2s;\n            animation-duration: 2s;\n    -webkit-animation-fill-mode: forwards;\n            animation-fill-mode: forwards;\n    -webkit-animation-iteration-count: infinite;\n            animation-iteration-count: infinite;\n    -webkit-animation-name: placeHolderShimmer;\n            animation-name: placeHolderShimmer;\n    -webkit-animation-timing-function: linear;\n            animation-timing-function: linear;\n    color: #f6f7f8;\n    background: linear-gradient(to right, #7b7b7b 8%, #999 18%, #7b7b7b 33%);\n    background-size: 800px 104px;\n    position: relative;\n    background-clip: text;\n    -webkit-background-clip: text;\n    -webkit-text-fill-color: transparent;\n}\n.loading::before{\n    -webkit-background-clip: padding-box;\n    background-clip: padding-box;\n    box-sizing: border-box;\n    border-width: 2px;\n    border-color: currentColor currentColor currentColor transparent;\n    position: absolute;\n    margin: auto;\n    top: 0;\n    left: 0;\n    right: 0;\n    bottom: 0;\n    content: \" \";\n    display: inline-block;\n    background: center center no-repeat;\n    background-size: cover;\n    border-radius: 50%;\n    border-style: solid;\n    width: 30px;\n    height: 30px;\n    opacity: 1;\n    -webkit-animation: loaderAnimation 1s infinite linear,fadeIn 0.5s ease-in-out;\n    animation: loaderAnimation 1s infinite linear, fadeIn 0.5s ease-in-out;\n}\n@-webkit-keyframes animatedPoints{\n    33%{\n        content: \".\"\n    }\n\n    66%{\n        content: \"..\"\n    }\n\n    100%{\n        content: \"...\"\n    }\n}\n@keyframes animatedPoints{\n    33%{\n        content: \".\"\n    }\n\n    66%{\n        content: \"..\"\n    }\n\n    100%{\n        content: \"...\"\n    }\n}\n\n@-webkit-keyframes placeHolderShimmer{\n    0%{\n        background-position: -800px 0\n    }\n    100%{\n        background-position: 800px 0\n    }\n}\n\n@keyframes placeHolderShimmer{\n    0%{\n        background-position: -800px 0\n    }\n    100%{\n        background-position: 800px 0\n    }\n}\n@-webkit-keyframes loaderAnimation{\n    0%{\n        transform:rotate(0);\n        -webkit-animation-timing-function:cubic-bezier(.55,.055,.675,.19);\n                animation-timing-function:cubic-bezier(.55,.055,.675,.19)\n    }\n\n    50%{\n        transform:rotate(180deg);\n        -webkit-animation-timing-function:cubic-bezier(.215,.61,.355,1);\n                animation-timing-function:cubic-bezier(.215,.61,.355,1)\n    }\n    100%{\n        transform:rotate(360deg)\n    }\n}\n@keyframes loaderAnimation{\n    0%{\n        transform:rotate(0);\n        -webkit-animation-timing-function:cubic-bezier(.55,.055,.675,.19);\n                animation-timing-function:cubic-bezier(.55,.055,.675,.19)\n    }\n\n    50%{\n        transform:rotate(180deg);\n        -webkit-animation-timing-function:cubic-bezier(.215,.61,.355,1);\n                animation-timing-function:cubic-bezier(.215,.61,.355,1)\n    }\n    100%{\n        transform:rotate(360deg)\n    }\n}\n\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
